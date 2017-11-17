@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cl.mineduc.induccion.mappers.MessageMapper">
+
+	<resultMap type="cl.mineduc.induccion.modelo.WorkerMessage"
+		id="workerMessage">
+		<id property="id" column="id" />
+		<result property="message" column="message" />
+	</resultMap>
+
+	<resultMap type="cl.mineduc.induccion.modelo.Usuario" id="usuarioMap">
+		<result property="nombre" column="alumno_nombre" />
+		<result property="fecha" column="alumno_fecha_nacimiento" />
+		<result property="id" column="alumno_id" />
+	</resultMap>
+
+	<sql id="messagesSQL">
+		SELECT message_id, message
+		FROM
+		ejemplo_archetype.worker_messages
+	</sql>
+
+	<sql id="obtenerUsuario">
+		SELECT
+		alumno_nombre,alumno_fecha_nacimiento,alumno_id
+		FROM
+		induccion.induccion_alumno
+	</sql>
+
+	<select id="getMessage" resultMap="workerMessage" parameterType="java.lang.Integer">
+		<include refid="messagesSQL" />
+		WHERE message_id = #{value}
+	</select>
+
+	<insert id="insertMessage" parameterType="cl.mineduc.induccion.modelo.WorkerMessage">
+		<selectKey keyProperty="id" resultType="java.lang.Integer"
+			order="BEFORE">
+			SELECT nextval('ejemplo_archetype.entidades_seq')
+		</selectKey>
+		INSERT INTO ejemplo_archetype.worker_messages(message_id, message)
+		VALUES (#{id}, #{message.message});
+	</insert>
+
+	<insert id="insertarUsuario" parameterType="cl.mineduc.induccion.modelo.Usuario">
+		INSERT INTO
+		induccion.induccion_alumno(alumno_id, alumno_nombre,
+		alumno_fecha_nacimiento)
+		VALUES(#{id}, #{nombre}, #{fecha})
+	</insert>
+
+	<select id="obtenerUsuarios" resultMap="usuarioMap">
+		<include refid="obtenerUsuario" />
+	</select>
+
+	<select id="obtenerUsuario" resultMap="usuarioMap">
+		<include refid="obtenerUsuario" />
+		where alumno_id = #{id}
+	</select>
+
+	<delete id="eliminarUsuario" parameterType="java.lang.Integer">
+		delete from induccion.induccion_alumno where alumno_id = #{id}
+	</delete>
+
+	<update id="actualizarUsuario" parameterType="cl.mineduc.induccion.modelo.Usuario">
+		update induccion.induccion_alumno set
+			alumno_id = #{id},
+			alumno_nombre = #{nombre},
+			alumno_fecha_nacimiento = #{fecha}		
+		where alumno_id = #{id}
+	</update>
+
+</mapper>
+
