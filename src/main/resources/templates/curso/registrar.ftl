@@ -33,7 +33,7 @@
 			class="container-fluid content with-outline rounded-top rounded-bottom">
 			<div class="row">
 				<div class="col-xs-10 col-xs-offset-1">
-					<h3 class="font-gob">Registrar alumno</h3>
+					<h3 class="font-gob">Registrar Curso</h3>
 				</div>
 			</div>
 			<br />
@@ -54,16 +54,8 @@
 					</div>
 					<br />
 				</div>
-				<br />
-				<div class="row">
-					<div class="col-xs-10 col-xs-offset-1">
-						<label for="fecha">Fecha Nacimiento</label> <input type="text"
-							class="form-control" name="fecha" id="fecha"
-							placeholder="dd-mm-yyyy" />
-					</div>
-					<br />
-				</div>
-				<br />
+				<br />			
+				
 				<div class="row">
 					<div class="col-xs-10 col-xs-offset-1">
 						<p>
@@ -110,19 +102,11 @@
 						$("#nombre").css("borderWidth","1px");
 						$("#nombre").css("borderStyle","dotted");
 						i++;
-					}
-					if ($("#fecha").val() == "") {
-						$("<li>Debe indicar fecha de nacimiento</li>")
-								.appendTo("#listado_errores");
-						$("#fecha").css("borderColor","#ff0000");
-						$("#fecha").css("borderWidth","1px");
-						$("#fecha").css("borderStyle","dotted");
-						i++;
-					}					
+					}						
 
 					if (i == 0) {
-						$("#formulario").attr("action", "${context}/alumno/registrar").submit();
-						$("<li>Alumno registrado exitosamente</li>").appendTo(
+						$("#formulario").attr("action", "${context}/curso/registrar").submit();
+						$("<li>Curso registrado exitosamente</li>").appendTo(
 								"#listado_errores");
 						$("#alerta").removeClass("alert alert-danger hide");
 						$("#alerta").addClass('alert alert-success');
@@ -144,28 +128,7 @@
 	    this.value = this.value.replace(/[^0-9]/g,'');
 	});
 	
-	$("#nombre").keypress(function (key) {
-        window.console.log(key.charCode)
-        if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
-            && (key.charCode < 65 || key.charCode > 90) //letras minusculas
-            && (key.charCode != 45) //retroceso
-            && (key.charCode != 241) //ñ
-             && (key.charCode != 209) //Ñ
-             && (key.charCode != 32) //espacio
-             && (key.charCode != 225) //á
-             && (key.charCode != 233) //é
-             && (key.charCode != 237) //í
-             && (key.charCode != 243) //ó
-             && (key.charCode != 250) //ú
-             && (key.charCode != 193) //Á
-             && (key.charCode != 201) //É
-             && (key.charCode != 205) //Í
-             && (key.charCode != 211) //Ó
-             && (key.charCode != 218) //Ú
-
-            )
-            return false;
-    });
+	
 	
 	
 </script>

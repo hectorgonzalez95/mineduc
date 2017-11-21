@@ -3,17 +3,20 @@ package cl.mineduc.induccion.controllers;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import cl.mineduc.induccion.modelo.Usuario;
+import cl.mineduc.induccion.modelo.Alumno;
+import cl.mineduc.induccion.modelo.validaciones.ValidacionAlumno;
 import cl.mineduc.induccion.services.InduccionService;
 
 
@@ -26,6 +29,14 @@ public class AlumnoController {
 	@Autowired
 	private InduccionService induccionServicio;	
 	
+	ValidacionAlumno validacionAlumno;
+	
+	
+	
+	public AlumnoController() {
+		this.validacionAlumno = new ValidacionAlumno();
+	}
+
 	@RequestMapping(value = "form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView form(@RequestParam(required = false) Integer error){		
 		
@@ -33,7 +44,7 @@ public class AlumnoController {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("error",error);	
-		List<Usuario> datos = induccionServicio.obtenerUsuarios();
+		List<Alumno> datos = induccionServicio.obtenerAlumnos();
 		mv.addObject("datos",datos);		
 	
 		return mv;
@@ -47,18 +58,19 @@ public class AlumnoController {
 		String id =request.getParameter("id");		
 		ModelAndView mv = new ModelAndView();	
 		mv.addObject("id", id);
+		
 		return mv;		
 		
 	}
 	
 	@RequestMapping(value = "edit", method = {RequestMethod.POST})
-	public ModelAndView edit(Usuario usuario) {
+	public ModelAndView edit(Alumno alumno) {
 		
 		log.info("Ingreso a :" + this.getClass().getName());
 		
 		ModelAndView mv = new ModelAndView();	
-		induccionServicio.actualizarUsuario(usuario);
-		mv.addObject("usuario" ,usuario);
+		induccionServicio.actualizarAlumno(alumno);
+		mv.addObject("alumno" ,alumno);
 		mv.setViewName("redirect:/form");
 		return mv;		
 		
@@ -69,7 +81,7 @@ public class AlumnoController {
 		
 		log.info("Ingreso a :" + this.getClass().getName());
 		ModelAndView mv=new ModelAndView();
-		induccionServicio.eliminarUsuario(id);	
+		induccionServicio.eliminarAlumno(id);	
 		
 		mv.setViewName("redirect:/form");
 		return mv;
@@ -85,17 +97,23 @@ public class AlumnoController {
 	}
 	
 	@RequestMapping(value = "registrar", method = {RequestMethod.POST})
-	public ModelAndView registrar(@ModelAttribute Usuario usuario){
+	public ModelAndView registrar(@Valid Alumno alumno,BindingResult result){
 					
-		log.info("Ingreso a :" + this.getClass().getName());		
+		log.info("Ingreso a :" + this.getClass().getName());
 		
-		induccionServicio.insertarUsuario(usuario);
-		
-		ModelAndView mv = new ModelAndView();
-		
-		mv.setViewName("redirect:/form");
-		return mv;
-		
+		this.validacionAlumno.validate(alumno, result);
+		if(result.hasErrors()){
+			ModelAndView mv = new ModelAndView();		
+			mv.addObject("errores", result.getAllErrors());
+			return mv;
+			
+		}else{
+			
+			induccionServicio.insertarAlumno(alumno);
+			
+			return new ModelAndView("redirect:/form");
+		}		
+				
 	}
 	
 	@RequestMapping(value = "menu", method = {RequestMethod.GET,RequestMethod.POST})

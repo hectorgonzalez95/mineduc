@@ -9,8 +9,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import cl.mineduc.induccion.modelo.Usuario;
-import cl.mineduc.induccion.repo.UsuarioRepositorio;
+import cl.mineduc.induccion.modelo.Alumno;
+import cl.mineduc.induccion.modelo.Curso;
+import cl.mineduc.induccion.repo.AlumnoRepositorio;
+import cl.mineduc.induccion.repo.CursoRepositorio;
 
 @Service
 public class InduccionService {
@@ -23,28 +25,37 @@ public class InduccionService {
 	private RestTemplate restTemplate;	
 
 	@Autowired
-	private UsuarioRepositorio usuarioRepositorio;
+	private AlumnoRepositorio alumnoRepositorio;
 	
-	public void insertarUsuario(Usuario usuario){
-		usuarioRepositorio.insertarUsuario(usuario);
+	@Autowired
+	private CursoRepositorio cursoRepositorio;
+	
+	public void insertarAlumno(Alumno alumno){
+		alumnoRepositorio.insertarAlumno(alumno);
 	}
 	
-	public List<Usuario> obtenerUsuarios(){		
-		return usuarioRepositorio.obtenerUsuarios();
+	public Alumno obtenerAlumno(Alumno alumno) {
+		return alumnoRepositorio.obtenerAlumno(alumno);
 	}
 
-	public Usuario obtenerUsuario(Usuario usuario) {
-		return usuarioRepositorio.obtenerUsuario(usuario);
-	}
-
-	public void eliminarUsuario(Integer id) {
+	public void eliminarAlumno(Integer id) {
 		
-		usuarioRepositorio.eliminarUsuario(id);
+		alumnoRepositorio.eliminarAlumno(id);
 	}
 
-	public void actualizarUsuario(Usuario usuario) {
+	public void actualizarAlumno(Alumno alumno) {
 		
-		usuarioRepositorio.actualizarUsuario(usuario);
+		alumnoRepositorio.actualizarAlumno(alumno);
+	}
+
+	public List<Alumno> obtenerAlumnos() {
+		return alumnoRepositorio.obtenerAlumnos();
+		
+	}
+
+	public void insertarCurso(Curso curso) {
+		cursoRepositorio.insertarCurso(curso);
+		
 	}
 
 

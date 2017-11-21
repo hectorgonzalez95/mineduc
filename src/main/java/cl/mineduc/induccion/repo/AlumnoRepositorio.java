@@ -8,29 +8,29 @@ import org.springframework.stereotype.Repository;
 
 import cl.mineduc.framework2.exceptions.MineducException;
 import cl.mineduc.induccion.mappers.MessageMapper;
-import cl.mineduc.induccion.modelo.Usuario;
+import cl.mineduc.induccion.modelo.Alumno;
 
 
-@Repository("UsuarioRepositorio")
-public class UsuarioRepositorio {
+@Repository("AlumnoRepositorio")
+public class AlumnoRepositorio {
 	
 	
 	@Autowired
-	private MessageMapper usuarioMappers;	
+	private MessageMapper alumnoMappers;	
 
 	
-	public void insertarUsuario(Usuario usuario){
+	public void insertarAlumno(Alumno alumno){
 		try{
-			usuarioMappers.insertarUsuario(usuario);
+			alumnoMappers.insertarAlumno(alumno);
 			
 		}catch (DataAccessException ex){			
 			throw new MineducException("Error interno, intente nuevamente ",ex);
 		}
 	}
 
-	public List<Usuario> obtenerUsuarios(){
+	public List<Alumno> obtenerAlumnos(){
 		try{
-			return usuarioMappers.obtenerUsuarios();
+			return alumnoMappers.obtenerAlumnos();
 			
 		}catch (DataAccessException ex){
 			throw new MineducException("Error interno, intente nuevamente ",ex);
@@ -38,27 +38,27 @@ public class UsuarioRepositorio {
 				
 	}
 
-	public Usuario obtenerUsuario(Usuario usuario) {
+	public Alumno obtenerAlumno(Alumno alumno) {
 		try{
-			return usuarioMappers.obtenerUsuario(usuario);
+			return alumnoMappers.obtenerAlumno(alumno);
 		}catch(DataAccessException e){
-			throw new MineducException("Error al obtener usuario ",e);
+			throw new MineducException("Error al obtener Alumno ",e);
 		}
 	}
 
-	public void eliminarUsuario(Integer id) {
+	public void eliminarAlumno(Integer id) {
 		try{
-			usuarioMappers.eliminarUsuario(id);
+			alumnoMappers.eliminarAlumno(id);
 		}catch(DataAccessException e){
-			throw new MineducException("Error al eliminar usuario ",e);
+			throw new MineducException("Error al eliminar Alumno ",e);
 		}
 	}
 
-	public void actualizarUsuario(Usuario usuario) {
+	public void actualizarAlumno(Alumno alumno) {
 		try{
-			usuarioMappers.actualizarUsuario(usuario);
+			alumnoMappers.actualizarAlumno(alumno);
 		}catch(DataAccessException e){
-			throw new MineducException("Error al actualizar usuario ",e);
+			throw new MineducException("Error al actualizar Alumno ",e);
 		}
 		
 	}

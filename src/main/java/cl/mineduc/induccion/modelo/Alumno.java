@@ -2,10 +2,19 @@ package cl.mineduc.induccion.modelo;
 
 import java.util.Date;
 
-public class Usuario{
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+public class Alumno{
+
+	
 	private Integer id;
+	
+	@NotBlank
 	private String nombre;
+	
+	@NotNull
 	private Date fecha;
 	
 	

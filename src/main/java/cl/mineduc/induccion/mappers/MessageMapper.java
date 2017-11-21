@@ -5,7 +5,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import cl.mineduc.induccion.modelo.Usuario;
+import cl.mineduc.induccion.modelo.Alumno;
+import cl.mineduc.induccion.modelo.Curso;
 import cl.mineduc.induccion.modelo.WorkerMessage;
 
 public interface MessageMapper {
@@ -14,19 +15,35 @@ public interface MessageMapper {
 	void insertMessage(@Param(value = "message") WorkerMessage mensaje);
 	
 	
-	//Insert Usuario
-	void insertarUsuario(Usuario usuario);
+	//Insert Alumno
+	void insertarAlumno(Alumno alumno);
 	
-	//select
-	List<Usuario> obtenerUsuarios();
+	//select Alumno
+	List<Alumno> obtenerAlumnos();
 	
-	//update
-	Usuario obtenerUsuario(Usuario usuario);
+	//update Alumno
+	Alumno obtenerAlumno(Alumno alumno);
 	
-	//delete
-	void eliminarUsuario(Integer id);
-	
-	void actualizarUsuario(Usuario usuario);
+	//delete Alumno
+	void eliminarAlumno(Integer id);
 	
 	
+	void actualizarAlumno(Alumno alumno);
+	
+	List<Alumno> obtenerAlumno();
+	
+	
+//	===================Cursos====================
+	
+	void insertarCurso(Curso curso);
+		
+	List<Curso> obtenerCursos();
+	
+	Curso obtenerCurso(Curso curso);
+	
+	void eliminarCurso(Integer id);
+	
+	void actualizarCurso(Curso curso);
+	
+	List<Curso> obtenerCurso();
 }

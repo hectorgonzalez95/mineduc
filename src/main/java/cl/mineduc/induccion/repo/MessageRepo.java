@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import cl.mineduc.framework2.exceptions.MineducException;
 import cl.mineduc.induccion.mappers.MessageMapper;
-import cl.mineduc.induccion.modelo.Usuario;
+import cl.mineduc.induccion.modelo.Alumno;
 import cl.mineduc.induccion.modelo.WorkerMessage;
 
 @Repository("messagesRepo")
@@ -31,12 +31,12 @@ public class MessageRepo {
 			}
 		}
 		
-		public void insertarUsuario(Usuario usuario){
+		public void insertarAlumno(Alumno alumno){
 			try{
-				messageMapper.insertarUsuario(usuario);
+				messageMapper.insertarAlumno(alumno);
 				
 			}catch (DataAccessException ex){
-				logger.error("Error UsuarioRepositorio metodo insertarUsuario parametros :" + usuario +" Fulltrace " + ex);
+				logger.error("Error AlumnoRepositorio metodo insertarAlumno parametros :" + alumno +" Fulltrace " + ex);
 				throw new MineducException("Error interno, intente nuevamente ",ex);
 			}
 		}
