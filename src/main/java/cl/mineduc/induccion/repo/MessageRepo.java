@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import cl.mineduc.framework2.exceptions.MineducException;
 import cl.mineduc.induccion.mappers.MessageMapper;
 import cl.mineduc.induccion.modelo.Alumno;
+import cl.mineduc.induccion.modelo.Curso;
 import cl.mineduc.induccion.modelo.WorkerMessage;
 
 @Repository("messagesRepo")

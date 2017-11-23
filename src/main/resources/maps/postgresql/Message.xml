@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cl.mineduc.induccion.mappers.MessageMapper">
+	
+<resultMap type="cl.mineduc.induccion.modelo.Alumno" id="alumnoMap">
+		<result property="nombre" column="alumno_nombre" />
+		<result property="fecha" column="alumno_fecha_nacimiento" />
+		<result property="id" column="alumno_id" />	
+		<association property="curso" column="curso_id_curso" select="obtenerCursoPorId"></association>							
+	</resultMap>
+	
+	<resultMap type="cl.mineduc.induccion.modelo.Curso" id="cursoMap">
+		<result property="id" column="curso_id" />
+		<result property="nombre" column="curso_nombre" />		
+	</resultMap>
+ 
+	<sql id="obtenerAlumno">
+		SELECT
+		alumno_nombre,alumno_fecha_nacimiento,alumno_id,curso_id_curso
+		FROM
+		induccion.alumno
+	</sql>
+	
+
+
+	<insert id="insertarAlumno" parameterType="cl.mineduc.induccion.modelo.Alumno">
+		INSERT INTO
+		induccion.alumno(alumno_id, alumno_nombre, alumno_fecha_nacimiento, curso_id_curso)
+		VALUES(#{id}, #{nombre}, #{fecha}, #{curso.id})
+	</insert>
+
+	<select id="obtenerAlumnos" resultMap="alumnoMap">
+		<include refid="obtenerAlumno" />
+	</select>
+
+	<select id="obtenerAlumno2" resultMap="alumnoMap">
+		<include refid="obtenerAlumno" />
+		where alumno_id = #{id}
+	</select>
+
+	<delete id="eliminarAlumno" parameterType="java.lang.Integer">
+		delete from
+		induccion.alumno where alumno_id = #{id}
+	</delete>
+
+	<update id="actualizarAlumno" parameterType="cl.mineduc.induccion.modelo.Alumno">
+		update
+		induccion.alumno set
+		alumno_id = #{id},
+		alumno_nombre = #{nombre},
+		alumno_fecha_nacimiento = #{fecha}
+		where alumno_id = #{id}
+	</update>
+
+
+	<!-- =======================Cursos========================= -->
+
+	<insert id="insertarCurso" parameterType="cl.mineduc.induccion.modelo.Curso">
+		INSERT INTO
+		induccion.curso(curso_id, curso_nombre)
+		VALUES(#{id}, #{nombre})
+	</insert>
+
+	
+	<select id="obtenerCursos" resultMap="cursoMap">
+		<include refid="obtenerCurso" />
+	</select>
+
+	<sql id="obtenerCurso">
+		SELECT
+		curso_nombre,curso_id
+		FROM
+		induccion.curso
+	</sql>
+	
+	<select id="obtenerCursoPorId" resultMap="cursoMap" parameterType="Integer">
+	<include refid="obtenerCurso" />
+		where curso_id = #{value} 
+	</select>
+	
+	
+</mapper>
+

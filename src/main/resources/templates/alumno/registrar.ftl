@@ -63,6 +63,18 @@
 					</div>
 					<br />
 				</div>
+				</br>
+				<div class="row">
+					<div class="col-xs-10 col-xs-offset-1">
+					<label for="curso">Curso</label> 
+						<select id="selectCurso" name="curso.id" class="form-control">
+							<option value="-1">Seleccione</option> 
+							[#list cursos as curso]				
+							<option value='${curso.id}'>${curso.nombre!""}</option>
+							[/#list]
+						</select>
+					</div>
+				</div>
 				<br />
 				<div class="row">
 					<div class="col-xs-10 col-xs-offset-1">
@@ -91,6 +103,7 @@
 				"click",
 				function() {
 					var i = 0;
+								
 					$("#listado_errores").empty();
 					$("#ingresar").prop("disabled", true);
 
@@ -100,7 +113,10 @@
 						
 						$("#id").css("borderColor","#ff0000");
 						$("#id").css("borderWidth","1px");
-						$("#id").css("borderStyle","dotted");							
+						$("#id").css("borderStyle","dotted");		
+						
+// 						$("#id").removeClass("form-control");
+// 						$("#id").addClass('form-control is-invalid');
 						i++;
 					}
 					if ($.trim($("#nombre").val()) == "") {
@@ -118,10 +134,19 @@
 						$("#fecha").css("borderWidth","1px");
 						$("#fecha").css("borderStyle","dotted");
 						i++;
-					}					
+					}		
+					if ($("#selectCurso").val()=="-1"){
+						$("<li>Debe seleccionar un curso</li>")
+						.appendTo("#listado_errores");
+						$("#selectCurso").css("borderColor","#ff0000");
+						$("#selectCurso").css("borderWidth","1px");
+						$("#selectCurso").css("borderStyle","dotted");
+						i++;
+					}
 
 					if (i == 0) {
-						$("#formulario").attr("action", "${context}/alumno/registrar").submit();
+												
+						$("#formulario").attr("action", "registrar").submit();
 						$("<li>Alumno registrado exitosamente</li>").appendTo(
 								"#listado_errores");
 						$("#alerta").removeClass("alert alert-danger hide");

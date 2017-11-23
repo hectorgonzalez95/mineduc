@@ -17,6 +17,8 @@ public class Alumno{
 	@NotNull
 	private Date fecha;
 	
+	private Curso curso;
+	
 	
 	public Integer getId() {
 		return id;
@@ -35,6 +37,12 @@ public class Alumno{
 	}
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+	public Curso getCurso() {
+		return curso;
+	}
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
 	
 	

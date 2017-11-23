@@ -1,7 +1,5 @@
 package cl.mineduc.induccion.modelo.validaciones;
 
-import java.util.Set;
-
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;

@@ -22,7 +22,7 @@ public interface MessageMapper {
 	List<Alumno> obtenerAlumnos();
 	
 	//update Alumno
-	Alumno obtenerAlumno(Alumno alumno);
+	Alumno obtenerAlumno2(Alumno alumno);
 	
 	//delete Alumno
 	void eliminarAlumno(Integer id);
@@ -30,7 +30,7 @@ public interface MessageMapper {
 	
 	void actualizarAlumno(Alumno alumno);
 	
-	List<Alumno> obtenerAlumno();
+	//List<Alumno> obtenerAlumno();
 	
 	
 //	===================Cursos====================

@@ -54,6 +54,7 @@
 					</div>
 					<br />
 				</div>
+				
 				<br />			
 				
 				<div class="row">
@@ -105,7 +106,7 @@
 					}						
 
 					if (i == 0) {
-						$("#formulario").attr("action", "${context}/curso/registrar").submit();
+						$("#formulario").attr("action", "${context}/alumno/registrarCurso").submit();
 						$("<li>Curso registrado exitosamente</li>").appendTo(
 								"#listado_errores");
 						$("#alerta").removeClass("alert alert-danger hide");

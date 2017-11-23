@@ -34,8 +34,8 @@ public class InduccionService {
 		alumnoRepositorio.insertarAlumno(alumno);
 	}
 	
-	public Alumno obtenerAlumno(Alumno alumno) {
-		return alumnoRepositorio.obtenerAlumno(alumno);
+	public Alumno obtenerAlumno2(Alumno alumno) {
+		return alumnoRepositorio.obtenerAlumno2(alumno);
 	}
 
 	public void eliminarAlumno(Integer id) {
@@ -58,6 +58,13 @@ public class InduccionService {
 		
 	}
 
+	public List<Curso> obtenerCursos() {
+		return alumnoRepositorio.obtenerCursos();
+	}
+
+	
+
+	
 
 
 }

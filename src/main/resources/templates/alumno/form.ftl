@@ -16,7 +16,9 @@
 					<li><a href="${context}/alumno/registrar">Agregar alumnos</a></li>
 					<li class="divider"></li>
 					<li class="dropdown-header">Cursos</li>
-					<li><a href="${context}/curso/registrar">Agregar cursos</a></li>
+					<li><a href="${context}/alumno/registrarCurso">Agregar cursos</a></li>
+				
+					<li><a href="${context}/alumno/cursos">Ver cursos</a></li>
 				</ul></li>
 		</ul>
 	</div>
@@ -31,6 +33,7 @@
 					<tr>
 						<th>Nombre</th>
 						<th>Fecha</th>
+						<th>Curso</th>
 						<th>Accion</th>
 					</tr>
 				</thead>
@@ -39,7 +42,7 @@
 					<tr>
 						<td>${dato.nombre?capitalize!''}</td>
 						<td>${dato.fecha?date?string("dd-MM-yyyy")!''}</td>
-
+						<td>${dato.curso.nombre!''}</td>
 						<td><a href="javascript:editar('${dato.id?c}')">
 								<button type="button" class="btn btn-primary btn-xs">
 									<span class="glyphicon glyphicon-pencil"></span>&nbsp;<span
@@ -115,6 +118,9 @@
 												}
 											});
 						});
+		
+		
+		
 	</script>
 
 	[/@main_page_login]
