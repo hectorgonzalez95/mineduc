@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import cl.mineduc.framework2.exceptions.MineducException;
 import cl.mineduc.induccion.mappers.MessageMapper;
 import cl.mineduc.induccion.modelo.Curso;
+import cl.mineduc.induccion.modelo.CursoEliminar;
+import cl.mineduc.induccion.modelo.Otro;
 
 @Repository("CursoRepositorio")
 public class CursoRepositorio {
@@ -18,9 +20,9 @@ public class CursoRepositorio {
 	private MessageMapper cursoMappers;	
 
 	
-	public void insertarCurso(Curso curso){
+	public void insertarCurso(Otro otro){
 		try{
-			cursoMappers.insertarCurso(curso);
+			cursoMappers.insertarCurso(otro);
 			
 		}catch (DataAccessException ex){			
 			throw new MineducException("Error interno, intente nuevamente ",ex);
@@ -58,6 +60,24 @@ public class CursoRepositorio {
 			cursoMappers.actualizarCurso(curso);
 		}catch(DataAccessException e){
 			throw new MineducException("Error al actualizar Curso ",e);
+		}
+		
+	}
+
+	public void eliminarCursos(CursoEliminar cursoEliminar) {
+		try{
+			cursoMappers.eliminarCursos(cursoEliminar);
+		}catch(DataAccessException e){
+			throw new MineducException("Error al eliminar Curso ",e);
+		}
+		
+	}
+
+	public void editarCurso(Curso curso) {
+		try{
+			cursoMappers.editarCurso(curso);
+		}catch(DataAccessException e){
+			throw new MineducException("Error al editar Curso ",e);
 		}
 		
 	}

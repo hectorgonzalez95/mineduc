@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 
 import cl.mineduc.induccion.modelo.Alumno;
 import cl.mineduc.induccion.modelo.Curso;
+import cl.mineduc.induccion.modelo.CursoEliminar;
+import cl.mineduc.induccion.modelo.Otro;
 import cl.mineduc.induccion.modelo.WorkerMessage;
 
 public interface MessageMapper {
@@ -35,7 +37,7 @@ public interface MessageMapper {
 	
 //	===================Cursos====================
 	
-	void insertarCurso(Curso curso);
+	void insertarCurso(Otro otro);
 		
 	List<Curso> obtenerCursos();
 	
@@ -46,4 +48,8 @@ public interface MessageMapper {
 	void actualizarCurso(Curso curso);
 	
 	List<Curso> obtenerCurso();
+	
+	void eliminarCursos(CursoEliminar cursoEliminar);
+	
+	void editarCurso(Curso curso);
 }

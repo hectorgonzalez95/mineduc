@@ -11,6 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 import cl.mineduc.induccion.modelo.Alumno;
 import cl.mineduc.induccion.modelo.Curso;
+import cl.mineduc.induccion.modelo.CursoEliminar;
+import cl.mineduc.induccion.modelo.Otro;
 import cl.mineduc.induccion.repo.AlumnoRepositorio;
 import cl.mineduc.induccion.repo.CursoRepositorio;
 
@@ -53,13 +55,23 @@ public class InduccionService {
 		
 	}
 
-	public void insertarCurso(Curso curso) {
-		cursoRepositorio.insertarCurso(curso);
+	public void insertarCurso(Otro otro) {
+		cursoRepositorio.insertarCurso(otro);
 		
 	}
 
 	public List<Curso> obtenerCursos() {
 		return alumnoRepositorio.obtenerCursos();
+	}
+
+	public void eliminarCursos(CursoEliminar cursoEliminar) {
+		cursoRepositorio.eliminarCursos(cursoEliminar);
+		
+	}
+
+	public void editarCurso(Curso curso) {
+		cursoRepositorio.editarCurso(curso);
+		
 	}
 
 	

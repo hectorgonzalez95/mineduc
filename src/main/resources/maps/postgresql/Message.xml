@@ -4,31 +4,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 
 <mapper namespace="cl.mineduc.induccion.mappers.MessageMapper">
-	
-<resultMap type="cl.mineduc.induccion.modelo.Alumno" id="alumnoMap">
+
+	<resultMap type="cl.mineduc.induccion.modelo.Alumno" id="alumnoMap">
 		<result property="nombre" column="alumno_nombre" />
 		<result property="fecha" column="alumno_fecha_nacimiento" />
-		<result property="id" column="alumno_id" />	
-		<association property="curso" column="curso_id_curso" select="obtenerCursoPorId"></association>							
+		<result property="id" column="alumno_id" />
+		<association property="curso" column="curso_id_curso"
+			select="obtenerCursoPorId"></association>
 	</resultMap>
-	
+
 	<resultMap type="cl.mineduc.induccion.modelo.Curso" id="cursoMap">
 		<result property="id" column="curso_id" />
-		<result property="nombre" column="curso_nombre" />		
+		<result property="nombre" column="curso_nombre" />
 	</resultMap>
- 
+
 	<sql id="obtenerAlumno">
 		SELECT
 		alumno_nombre,alumno_fecha_nacimiento,alumno_id,curso_id_curso
 		FROM
 		induccion.alumno
 	</sql>
-	
+
 
 
 	<insert id="insertarAlumno" parameterType="cl.mineduc.induccion.modelo.Alumno">
 		INSERT INTO
-		induccion.alumno(alumno_id, alumno_nombre, alumno_fecha_nacimiento, curso_id_curso)
+		induccion.alumno(alumno_id, alumno_nombre, alumno_fecha_nacimiento,
+		curso_id_curso)
 		VALUES(#{id}, #{nombre}, #{fecha}, #{curso.id})
 	</insert>
 
@@ -58,13 +60,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- =======================Cursos========================= -->
 
-	<insert id="insertarCurso" parameterType="cl.mineduc.induccion.modelo.Curso">
-		INSERT INTO
-		induccion.curso(curso_id, curso_nombre)
-		VALUES(#{id}, #{nombre})
-	</insert>
+	   
+     <insert id="insertarCurso" parameterType="cl.mineduc.induccion.modelo.Otro">
+        INSERT INTO induccion.curso (curso_id, curso_nombre)
+        VALUES
+        <foreach item="element" index="index" collection="curso"
+            open="(" separator="),(" close=")">
+            #{element.id}, #{element.nombre}
+        </foreach>
+    </insert>
 
-	
+
 	<select id="obtenerCursos" resultMap="cursoMap">
 		<include refid="obtenerCurso" />
 	</select>
@@ -75,12 +81,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		FROM
 		induccion.curso
 	</sql>
-	
-	<select id="obtenerCursoPorId" resultMap="cursoMap" parameterType="Integer">
-	<include refid="obtenerCurso" />
-		where curso_id = #{value} 
+
+	<select id="obtenerCursoPorId" resultMap="cursoMap"
+		parameterType="Integer">
+		<include refid="obtenerCurso" />
+		where curso_id = #{value}
 	</select>
+
+	
+	<delete id="eliminarCursos" parameterType="cl.mineduc.induccion.modelo.CursoEliminar">
+		delete from induccion.curso where curso_id in
+		<foreach item="element" index="index" collection="idCurso"
+            open="(" separator="," close=")">
+              #{element}
+        </foreach>		
+	</delete>
 	
 	
+	<update id="editarCurso" parameterType="cl.mineduc.induccion.modelo.Curso">
+		update
+		induccion.curso set	
+		curso_nombre = #{nombre}		
+		where curso_id = #{id}
+	</update>
 </mapper>
 

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cl.mineduc.induccion.modelo.Alumno;
 import cl.mineduc.induccion.modelo.Curso;
+import cl.mineduc.induccion.modelo.CursoEliminar;
 import cl.mineduc.induccion.modelo.Otro;
 import cl.mineduc.induccion.modelo.validaciones.ValidacionAlumno;
 import cl.mineduc.induccion.modelo.validaciones.ValidacionCurso;
@@ -132,48 +133,74 @@ public class AlumnoController {
 	@RequestMapping(value = "menu", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView menu() {		
 	
-		log.info("Ingreso a :" + this.getClass().getName());
-		
+		log.info("Ingreso a :" + this.getClass().getName());	
 			
 		ModelAndView mv = new ModelAndView();	
 		return mv;		
 		
 	}
-	
-	
-	@RequestMapping(value = "registrarCurso", method = {RequestMethod.GET})
-	public ModelAndView registrarCurso(){		
 		
-		ModelAndView mv = new ModelAndView();		
-		return mv;
-		
-	}
-	
 	@RequestMapping(value = "registrarCurso", method = {RequestMethod.POST})
-	public ModelAndView registrarCurso(Otro otro,BindingResult result){
+	public ModelAndView registrarCurso(Otro otro, BindingResult result){
+		
 		ModelAndView mv = new ModelAndView();	
-//		this.validacionCurso.validate(curso, result);
+
 		if(result.hasErrors()){	
 			mv.addObject("errores", result.getAllErrors());
 		}else{
-//			induccionServicio.insertarCurso(curso);
-//			mv.setViewName("redirect:/form");	
-			
+			induccionServicio.insertarCurso(otro);			
 		}
+		mv.setViewName("cursos");
 		return mv;
 	}
 	
 	@RequestMapping(value = "cursos", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView cursos(){		
 		
+			
 		List<Curso> cursos = induccionServicio.obtenerCursos();
+		ModelAndView mv = new ModelAndView();
+		if  (cursos.isEmpty()){
+			mv.addObject("error", "Sin registros");
+			mv.addObject("cursos", cursos);
+			return mv;
+		}else{			
+			mv.addObject("cursos", cursos);
+			return mv;
+		}
 		
-		ModelAndView mv = new ModelAndView();		
-		mv.addObject("cursos", cursos);
+	}
+	
+	@RequestMapping(value = "eliminarCursos", method = {RequestMethod.POST})
+	public ModelAndView eliminarCursos(CursoEliminar cursoEliminar){
+		
+		log.info("Ingreso a :" + this.getClass().getName());
+		ModelAndView mv=new ModelAndView();	
+		
+		induccionServicio.eliminarCursos(cursoEliminar);
+		
+		mv.setViewName("cursos");
+		return mv;
+	}
+
+	@RequestMapping(value = "editCurso", method = {RequestMethod.POST})
+	public ModelAndView editCurso(Curso curso){
+		
+		
+		ModelAndView mv=new ModelAndView();	
+		mv.addObject("id",curso.getId());
 		return mv;
 	}
 	
-
+	@RequestMapping(value = "editarcurso", method = {RequestMethod.POST})
+	public ModelAndView editarCurso(Curso curso){
+		
+		induccionServicio.editarCurso(curso);
+		ModelAndView mv=new ModelAndView();	
+		
+		mv.setViewName("cursos");
+		return mv;
+	}
 	
 	
 	

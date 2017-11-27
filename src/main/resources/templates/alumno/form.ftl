@@ -15,9 +15,7 @@
 					<li class="dropdown-header">Alumnos</li>
 					<li><a href="${context}/alumno/registrar">Agregar alumnos</a></li>
 					<li class="divider"></li>
-					<li class="dropdown-header">Cursos</li>
-					<li><a href="${context}/alumno/registrarCurso">Agregar cursos</a></li>
-				
+					<li class="dropdown-header">Cursos</li>				
 					<li><a href="${context}/alumno/cursos">Ver cursos</a></li>
 				</ul></li>
 		</ul>
