@@ -2,39 +2,17 @@
 
 <form id="myForm" method="post">
 	<div>
-
-
 		<button type="button" class="btn btn-primary-gradient btn-lg"
 			id="btnAgregarFilas">
 			<span class="glyphicon glyphicon-plus"></span><span class="font-gob">Agregar
 				Fila</span>
 		</button>
-		&nbsp; <a href="javascript:agregarCursos()">
-			<button type="button" class="btn btn-primary-gradient btn-lg"
-				id="btnAgregarCursos">
-				<span class="glyphicon glyphicon-plus"></span><span class="font-gob">Agregar
-					Cursos</span>
-			</button>
-		</a> &nbsp; <a href="javascript:eliminar()">
-			<button type="button" class="btn btn-primary-gradient btn-lg"
-				id="btnEliminarCursos">
-				<span class="glyphicon glyphicon-minus"></span><span
-					class="font-gob">Eliminar Cursos</span>
-			</button>
-		</a>
-	</div>
-	</br> [#if !cursos?has_content]
-	<div class="alert alert-info alert-dismissible" role="alert">
-		<span class="glyphicon glyphicon-info-sign"></span>
-		<button type="button" class="close" data-dismiss="alert"
-			aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		&nbsp;
-		<p>${error}</p>
-	</div>
 
-	[/#if]
+	</div>
+	</br>
+
+
+
 
 	<div id="divForm">
 
@@ -54,12 +32,7 @@
 					value="${curso.id!''}" /></td>
 				<td>${curso.id!''}</td>
 				<td>${curso.nombre}</td>
-				<td><a href="javascript:editar(${curso.id!''})">
-						<button type="button" class="btn btn-primary btn-xs">
-							<span class="glyphicon glyphicon-pencil"></span>&nbsp;<span
-								class="font-gob">Editar</span>
-						</button>
-				</a></td>
+				<td></td>
 			</tr>
 			[/#list]
 		</tbody>
@@ -93,13 +66,8 @@
 
 
 <script type="text/javascript">
-	function editar(id) {
-		$("#id").val(id);
-		$("#myForm").prop("action", "editCurso").submit();
-	}
-
 	function eliminar() {
-		
+
 		confirmDialog("Esta seguro que desea eliminar?", function() {
 
 			$(".chkCheckBoxId:checked").each(function() {
@@ -136,51 +104,71 @@
 			var table = $(e.target).closest('table');
 			$('td input:checkbox', table).prop('checked', this.checked);
 		});
-		
-		
-		[#if cursos?has_content]		
-			$("#divForm").show();
-		[#else]
-			$("#divForm").hide();
-		[/#if]
-		
+
 	});
 
 	var i = 0;
+		
 	function funcAgregarFilas() {
-		$("#divForm").show();
-
-		$("#DatatableCursos")
-				.append(
-						$('<tr>')
-								.append(
-										$('<td>').append(
-												$('<input>').attr('type',
-														'checkbox').addClass(
-														'form-control').attr(
-														'name', 'idCurso')))
-								.append(
-										$('<td>').append(
-												$('<input>').attr('type',
-														'text').addClass(
-														'form-control').attr(
-														'name',
-														'curso[' + i + '].id')))
-								.append(
-										$('<td>').append(
-												$('<input>').attr('type',
-														'text').addClass(
-														'form-control').attr(
-														'name',
-														'curso[' + i
-																+ '].nombre')))
-								.append($('<td>')))
+		$("#DatatableCursos").append(
+				$('<tr>').append(
+						$('<td>').append(
+								$('<input>').attr('type', 'checkbox').addClass(
+										'form-control').attr('name',
+										'idCurso[' + i + ']'))).append(
+						$('<td>').append(
+								$('<input>').attr('type', 'text').addClass(
+										'form-control').attr('name',
+										'curso[' + i + '].id')
+						.attr("id","i"+i)				
+						)).append(
+						$('<td>').append(
+								$('<input>').attr('type', 'text').addClass(
+										'form-control').attr('name',
+										'curso[' + i + '].nombre')
+										.attr("id","c"+i))).append(
+						$('<td>').append(
+								"<td><button type='button' class='btn btn-primary btn-sm' onclick='agregarCursos("+i+")'><span class='glyphicon glyphicon-pencil'></span>&nbsp;<span class='font-gob'>Agregar</span></button></td>").append(
+						$('<td>'))))
 		i++;
 	};
-
-	function agregarCursos() {
-		$("#myForm").attr("action", "${context}/alumno/registrarCurso")
-				.submit();
+	
+	function agregarCursos(id) {
+		$.ajax({
+			url: "registrarCursoJSON",
+			dataType: "json",
+			type: "post",
+			data: {id:$("#i"+id).val(), curso:$("#c"+id).val()},
+			success: function(data){
+				iniciarTabla(data);
+			}
+		});
+	}
+	
+	function iniciarTabla(data){
+		$("#DatatableCursos").DataTable({
+			"processing"	: true,
+			"destroy": true,
+			"lengthChange"	: 10,
+			"searching"		: true,
+			"info"			: true,
+			"paging"		: true,
+			"ordering"		: true,
+			"pagingType" 	: "full_numbers",
+			"lengthMenu"	: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+			"columns": [
+			            { "data": "",
+			            	"render" : function(data,type,full){
+			            		return '<input type="checkbox" name="idCurso" class="chkCheckBoxId" value="'+full.id+'" />';
+			            	}},
+			            { "data": "id"},
+			            { "data": "nombre"},
+			            {"data":""}
+			            ], 
+			"language": {
+				"url": "${context}/locals/json/i18n/dataTables.spanish.json"
+			}
+		});
 	}
 </script>
 [/@main_page_login]

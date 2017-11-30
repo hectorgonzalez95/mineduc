@@ -81,4 +81,12 @@ public class CursoRepositorio {
 		}
 		
 	}
+
+	public void insertarCursoAjax(Integer id, String curso) {
+		try{
+			cursoMappers.insertarCursoAjax(id,curso);
+		}catch(DataAccessException e){
+			throw new MineducException("error" ,e);
+		}
+	}
 }

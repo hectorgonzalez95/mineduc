@@ -52,4 +52,10 @@ public interface MessageMapper {
 	void eliminarCursos(CursoEliminar cursoEliminar);
 	
 	void editarCurso(Curso curso);
+	void insertarCursoAjax(@Param("id")Integer id,@Param("curso") String curso);
+	
+	
+	//=====================Region=======================
+	
+	
 }

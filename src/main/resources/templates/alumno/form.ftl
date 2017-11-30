@@ -17,6 +17,13 @@
 					<li class="divider"></li>
 					<li class="dropdown-header">Cursos</li>				
 					<li><a href="${context}/alumno/cursos">Ver cursos</a></li>
+					<li class="divider"></li>
+					<li class="dropdown-header">Regiones</li>				
+					<li><a href="${context}/usuario/form">Regiones</a></li>
+					<li class="divider"></li>
+					<li class="dropdown-header">Ajax Form</li>				
+					<li><a href="${context}/usuario/ajaxform">Ajax Form</a></li>
+					
 				</ul></li>
 		</ul>
 	</div>

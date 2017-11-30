@@ -7,30 +7,32 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cl.mineduc.induccion.modelo.Alumno;
 import cl.mineduc.induccion.modelo.Curso;
 import cl.mineduc.induccion.modelo.CursoEliminar;
 import cl.mineduc.induccion.modelo.Otro;
+import cl.mineduc.induccion.modelo.Region;
 import cl.mineduc.induccion.repo.AlumnoRepositorio;
 import cl.mineduc.induccion.repo.CursoRepositorio;
 
 @Service
 public class InduccionService {
-	private static Logger logger = LogManager.getLogger(InduccionService.class);
-	
-	@Autowired 
-	private Environment env;
-	
-	@Autowired 
-	private RestTemplate restTemplate;	
 
 	@Autowired
 	private AlumnoRepositorio alumnoRepositorio;
 	
 	@Autowired
 	private CursoRepositorio cursoRepositorio;
+	
+	@Autowired
+	RegionServicio regionServicio;
+	
+	@Autowired
+	ObjectMapper objectMapper;
 	
 	public void insertarAlumno(Alumno alumno){
 		alumnoRepositorio.insertarAlumno(alumno);
@@ -70,8 +72,22 @@ public class InduccionService {
 	}
 
 	public void editarCurso(Curso curso) {
-		cursoRepositorio.editarCurso(curso);
+		cursoRepositorio.editarCurso(curso);		
+	}
+
+	public String obtenerJsonRegiones() {
 		
+		List<Region> listaRegiones = regionServicio.buscarRegiones();
+		String jsonRegiones = "";
+		try {
+			jsonRegiones = objectMapper.writeValueAsString(listaRegiones);
+		} catch (JsonProcessingException e) {			
+		}
+		return jsonRegiones.replaceAll("\'", "\\\\'");
+	}
+
+	public void insertarCursoAjax(Integer id, String curso) {
+		cursoRepositorio.insertarCursoAjax(id,curso);
 	}
 
 	
